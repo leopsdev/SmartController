@@ -15,12 +15,14 @@ public class EquipController {
     @Autowired
     private AirRepository repository;
 
+    @CrossOrigin(origins = "*",allowedHeaders = "*")
     @GetMapping
     public List<AirResponseDTO> getAll(){
         List<AirResponseDTO> equips = repository.findAll().stream().map(AirResponseDTO::new).toList();
         return equips;
     }
 
+    @CrossOrigin(origins = "*",allowedHeaders = "*")
     @PostMapping
     public void saveAir(@RequestBody AirRequestDTO data){
         EquipmentAir equipmentAir = new EquipmentAir(data);
