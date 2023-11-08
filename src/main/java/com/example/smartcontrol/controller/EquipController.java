@@ -1,23 +1,30 @@
 package com.example.smartcontrol.controller;
 
-import com.example.smartcontrol.equipment.AirConditioningDTO;
+import com.example.smartcontrol.equipment.AirRequestDTO;
+import com.example.smartcontrol.equipment.AirResponseDTO;
 import com.example.smartcontrol.equipment.AirRepository;
 import com.example.smartcontrol.equipment.EquipmentAir;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("equipment")
+@RequestMapping("air")
 public class EquipController {
     @Autowired
     private AirRepository repository;
+
     @GetMapping
-    public List<AirConditioningDTO> getAll(){
-        List<AirConditioningDTO> equips = repository.findAll().stream().map(AirConditioningDTO::new).toList();
+    public List<AirResponseDTO> getAll(){
+        List<AirResponseDTO> equips = repository.findAll().stream().map(AirResponseDTO::new).toList();
         return equips;
+    }
+
+    @PostMapping
+    public void saveAir(@RequestBody AirRequestDTO data){
+        EquipmentAir equipmentAir = new EquipmentAir(data);
+        repository.save(equipmentAir);
+        return;
     }
 }

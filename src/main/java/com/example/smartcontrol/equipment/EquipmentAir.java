@@ -19,4 +19,11 @@ public class EquipmentAir {
     private Boolean active;
     private Boolean condition;
 
+    public EquipmentAir(AirRequestDTO data){
+        this.active = data.active();
+        this.condition = data.condition();
+        this.description = data.description();
+        this.model = data.model();
+    }
+
 }
