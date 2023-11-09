@@ -8,6 +8,7 @@ import java.util.UUID;
 @Table(name = "air")
 @Entity(name = "air")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
