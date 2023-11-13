@@ -19,12 +19,16 @@ public class EquipmentAir {
     private String description;
     private Boolean active;
     private Boolean condition;
+    private String division;
+    private String segment;
 
     public EquipmentAir(AirRequestDTO data){
         this.active = data.active();
         this.condition = data.condition();
         this.description = data.description();
         this.model = data.model();
+        this.division = data.division();
+        this.segment = data.segment();
     }
 
 }

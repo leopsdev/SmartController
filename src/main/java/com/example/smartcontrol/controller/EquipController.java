@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("air")
@@ -24,6 +25,14 @@ public class EquipController {
         List<AirResponseDTO> equips = repository.findAll().stream().map(AirResponseDTO::new).toList();
         return equips;
     }
+
+    @GetMapping("/{division}")
+    public List<AirResponseDTO> getPorBloco(@PathVariable String division){
+        List<EquipmentAir> equips = repository.findByDivision(division);
+        List<AirResponseDTO> responseDTOs = equips.stream().map(AirResponseDTO::new).collect(Collectors.toList());
+        return responseDTOs;
+    }
+
 
     @CrossOrigin(origins = "*",allowedHeaders = "*")
     @PostMapping
