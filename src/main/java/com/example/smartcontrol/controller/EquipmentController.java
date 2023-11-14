@@ -1,9 +1,9 @@
 package com.example.smartcontrol.controller;
 
-import com.example.smartcontrol.equipment.AirRequestDTO;
-import com.example.smartcontrol.equipment.AirResponseDTO;
-import com.example.smartcontrol.equipment.AirRepository;
-import com.example.smartcontrol.equipment.EquipmentAir;
+import com.example.smartcontrol.domain.equipment.AirRequestDTO;
+import com.example.smartcontrol.domain.equipment.AirResponseDTO;
+import com.example.smartcontrol.repositories.AirRepository;
+import com.example.smartcontrol.domain.equipment.EquipmentAir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,22 +15,29 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("air")
-public class EquipController {
+public class EquipmentController {
     @Autowired
     private AirRepository repository;
 
     @CrossOrigin(origins = "*",allowedHeaders = "*")
     @GetMapping
-    public List<AirResponseDTO> getAll(){
+    public ResponseEntity getAll(){
         List<AirResponseDTO> equips = repository.findAll().stream().map(AirResponseDTO::new).toList();
-        return equips;
+        return ResponseEntity.ok(equips);
     }
 
     @GetMapping("/{division}")
-    public List<AirResponseDTO> getPorBloco(@PathVariable String division){
+    public ResponseEntity getPorBloco(@PathVariable String division){
         List<EquipmentAir> equips = repository.findByDivision(division);
         List<AirResponseDTO> responseDTOs = equips.stream().map(AirResponseDTO::new).collect(Collectors.toList());
-        return responseDTOs;
+        return ResponseEntity.ok(responseDTOs);
+    }
+
+    @GetMapping("/{division}/{segment}")
+    public ResponseEntity getPorSalaDoBloco(@PathVariable String division, @PathVariable String segment){
+        List<EquipmentAir> equips = repository.findByDivisionAndSegment(division, segment);
+        List<AirResponseDTO> responseDTOs = equips.stream().map(AirResponseDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok(responseDTOs);
     }
 
 

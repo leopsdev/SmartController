@@ -1,9 +1,7 @@
-package com.example.smartcontrol.equipment;
+package com.example.smartcontrol.domain.equipment;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.UUID;
 
 @Table(name = "air")
 @Entity(name = "air")

@@ -1,4 +1,4 @@
-package com.example.smartcontrol.equipment;
+package com.example.smartcontrol.domain.equipment;
 
 import java.util.ArrayList;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.example.smartcontrol.equipment;
+package com.example.smartcontrol.domain.equipment;
 
 public record AirResponseDTO(String id,
                              String model,
