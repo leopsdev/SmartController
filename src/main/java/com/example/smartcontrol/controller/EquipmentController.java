@@ -42,7 +42,7 @@ public class EquipmentController {
 
 
     @CrossOrigin(origins = "*",allowedHeaders = "*")
-    @PostMapping
+    @PostMapping("/air")
     public ResponseEntity saveAir(@RequestBody AirRequestDTO data){
         EquipmentAir equipmentAir = new EquipmentAir(data);
         repository.save(equipmentAir);
@@ -55,14 +55,32 @@ public class EquipmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
+    @PutMapping("/updateCondition")
     @Transactional
-    public ResponseEntity updateAir(@RequestBody AirRequestDTO data){
+    public ResponseEntity updateAirAdm(@RequestBody AirRequestDTO data){
         Optional<EquipmentAir> optionalEquipmentAir = repository.findById(data.id());
         if(optionalEquipmentAir.isPresent()){
             EquipmentAir equipmentAir = optionalEquipmentAir.get();
-            equipmentAir.setCondition(data.condition());
-            equipmentAir.setActive(data.active());
+
+            if(data.condition() == false){
+                equipmentAir.setCondition(data.condition());
+                equipmentAir.setActive(false);
+                return ResponseEntity.ok(equipmentAir);
+            } else {
+                equipmentAir.setCondition(data.condition());
+                equipmentAir.setActive(data.active());
+                return ResponseEntity.ok(equipmentAir);
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/onoff")
+    public ResponseEntity updateOnOFF(@PathVariable String id, @RequestBody Boolean active){
+        Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
+        if(OptionalEquipmentAir.isPresent()){
+            EquipmentAir equipmentAir = OptionalEquipmentAir.get();
+            equipmentAir.setActive(active);
             return ResponseEntity.ok(equipmentAir);
         }
         return ResponseEntity.notFound().build();
