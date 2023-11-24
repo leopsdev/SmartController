@@ -1,9 +1,9 @@
 package com.example.smartcontrol.domain.user;
 
 public enum UserEnum {
-    ADMIN("admin"),
-    SECURITY("security"),
-    TEACHER("teacher");
+    ADMIN("ADMIN"),
+    SECURITY("SECURITY"),
+    TEACHER("TEACHER");
 
     private String role;
 

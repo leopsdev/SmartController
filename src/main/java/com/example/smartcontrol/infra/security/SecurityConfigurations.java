@@ -21,8 +21,9 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.PUT,"/updateCondition").hasRole("SECURITY")
-                        .requestMatchers(HttpMethod.PUT,"/updateCondition").hasRole("ADMIN")
+                        .requestMatchers((HttpMethod.POST),"/auth/login").permitAll()
+                        .requestMatchers((HttpMethod.POST),"/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/updateCondition").hasAnyRole("SECURITY","ADMIN")
                         .requestMatchers(HttpMethod.POST,"/air").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/{id}").hasRole(("ADMIN"))
                         .anyRequest().authenticated()
@@ -34,9 +35,10 @@ public class SecurityConfigurations {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder(){
+
         return new BCryptPasswordEncoder();
     }
 }
