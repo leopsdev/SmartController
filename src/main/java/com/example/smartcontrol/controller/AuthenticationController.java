@@ -1,8 +1,10 @@
 package com.example.smartcontrol.controller;
 
 
+import com.example.smartcontrol.domain.user.LoginReponseDTO;
 import com.example.smartcontrol.domain.user.RegisterDTO;
 import com.example.smartcontrol.domain.user.User;
+import com.example.smartcontrol.infra.security.TokenService;
 import com.example.smartcontrol.repositories.UserRepository;
 import jakarta.validation.Valid;
 import com.example.smartcontrol.domain.user.AuthenticationDTO;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthenticationController {
     @Autowired
+    private TokenService tokenService;
+    @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository repository;
@@ -28,7 +32,9 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(),data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generationToken( (User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginReponseDTO(token));
     }
 
     @PostMapping("/register")
