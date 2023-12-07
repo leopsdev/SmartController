@@ -36,7 +36,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginReponseDTO(token));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
         if(repository.findByLogin(data.login()) != null ) return ResponseEntity.badRequest().build();
