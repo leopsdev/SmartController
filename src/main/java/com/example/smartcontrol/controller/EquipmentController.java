@@ -19,13 +19,14 @@ public class EquipmentController {
     @Autowired
     private AirRepository repository;
 
-    @CrossOrigin(origins = "*",allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public ResponseEntity getAll(){
         List<AirResponseDTO> equips = repository.findAll().stream().map(AirResponseDTO::new).toList();
         return ResponseEntity.ok(equips);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{division}")
     public ResponseEntity getPorBloco(@PathVariable String division){
         List<EquipmentAir> equips = repository.findByDivision(division);
@@ -33,6 +34,7 @@ public class EquipmentController {
         return ResponseEntity.ok(responseDTOs);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{division}/{segment}")
     public ResponseEntity getPorSalaDoBloco(@PathVariable String division, @PathVariable String segment){
         List<EquipmentAir> equips = repository.findByDivisionAndSegment(division, segment);
@@ -40,8 +42,7 @@ public class EquipmentController {
         return ResponseEntity.ok(responseDTOs);
     }
 
-
-    @CrossOrigin(origins = "*",allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = {"Authorization", "Content-Type"})
     @PostMapping("/air")
     public ResponseEntity saveAir(@RequestBody AirRequestDTO data){
         EquipmentAir equipmentAir = new EquipmentAir(data);
@@ -49,12 +50,14 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentAir);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "Authorization")
     @DeleteMapping("/{id}")
     public ResponseEntity deleteAir(@PathVariable String id){
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = {"Authorization", "Content-Type"})
     @PutMapping("/updateCondition")
     @Transactional
     public ResponseEntity updateAirAdm(@RequestBody AirRequestDTO data){
@@ -75,6 +78,7 @@ public class EquipmentController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = {"Authorization", "Content-Type"})
     @PutMapping("/{id}/onoff")
     public ResponseEntity updateOnOFF(@PathVariable String id, @RequestBody Boolean active){
         Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
