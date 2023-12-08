@@ -25,7 +25,6 @@ public class AuthenticationController {
     @Autowired
     private UserRepository repository;
 
-    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(),data.password());
@@ -36,7 +35,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginReponseDTO(token));
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
         if(repository.findByLogin(data.login()) != null ) return ResponseEntity.badRequest().build();

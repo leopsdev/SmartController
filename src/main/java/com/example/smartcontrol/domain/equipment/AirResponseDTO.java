@@ -1,5 +1,6 @@
 package com.example.smartcontrol.domain.equipment;
 
+
 public record AirResponseDTO(String id,
                              String model,
                              String description,
