@@ -4,6 +4,7 @@ import com.example.smartcontrol.domain.equipment.AirRequestDTO;
 import com.example.smartcontrol.domain.equipment.AirResponseDTO;
 import com.example.smartcontrol.repositories.AirRepository;
 import com.example.smartcontrol.domain.equipment.EquipmentAir;
+import com.example.smartcontrol.services.SerialCommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,20 @@ import java.util.stream.Collectors;
 public class EquipmentController {
     @Autowired
     private AirRepository repository;
+    @Autowired
+    private SerialCommunicationService serialService;
+
+    @GetMapping("/test/turnOn")
+    public String testTurnOn() {
+        serialService.sendMessageToSerialPort("1");
+        return "ok";
+    }
+
+    @GetMapping("/test/turnOff")
+    public String testTurnOff() {
+        serialService.sendMessageToSerialPort("0");
+        return "ok";
+    }
 
     @GetMapping
     public ResponseEntity getAll(){
