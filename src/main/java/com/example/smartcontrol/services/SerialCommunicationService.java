@@ -7,7 +7,7 @@ import com.fazecast.jSerialComm.*;
 public class SerialCommunicationService {
     public void sendMessageToSerialPort(String message) {
         try {
-            SerialPort port = SerialPort.getCommPort("COM4"); // Adjust the port name as needed
+            SerialPort port = SerialPort.getCommPort("COM5"); // Adjust the port name as needed
             if (port.openPort()) {
                 port.setBaudRate(9600); // Set the appropriate baud rate
 

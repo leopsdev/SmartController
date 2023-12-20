@@ -2,8 +2,12 @@ package com.example.smartcontrol.controller;
 
 import com.example.smartcontrol.domain.equipment.AirRequestDTO;
 import com.example.smartcontrol.domain.equipment.AirResponseDTO;
+import com.example.smartcontrol.domain.rows.Rows;
+import com.example.smartcontrol.domain.rows.RowsRequestDTO;
+import com.example.smartcontrol.domain.user.LoginReponseDTO;
 import com.example.smartcontrol.repositories.AirRepository;
 import com.example.smartcontrol.domain.equipment.EquipmentAir;
+import com.example.smartcontrol.repositories.RowRepository;
 import com.example.smartcontrol.services.SerialCommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
 public class EquipmentController {
     @Autowired
     private AirRepository repository;
+    @Autowired
+    private RowRepository rowRepository;
     @Autowired
     private SerialCommunicationService serialService;
 
@@ -61,6 +67,13 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentAir);
     }
 
+    @PostMapping("/row")
+    public ResponseEntity saveRow(@RequestBody RowsRequestDTO data){
+        Rows rows = new Rows(data);
+        rowRepository.save(rows);
+        return ResponseEntity.ok(rows);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteAir(@PathVariable String id){
         repository.deleteById(id);
@@ -87,11 +100,13 @@ public class EquipmentController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}/onoff")
+    @PutMapping("/{id}/turnOn")
     public ResponseEntity updateOnOFF(@PathVariable String id, @RequestBody Boolean active){
         Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
         if(OptionalEquipmentAir.isPresent()){
             EquipmentAir equipmentAir = OptionalEquipmentAir.get();
+            Rows newRow = rowRepository.findByModel(equipmentAir.getModel());
+            serialService.sendMessageToSerialPort(newRow.getRowOn());
             equipmentAir.setActive(active);
             return ResponseEntity.ok(equipmentAir);
         }

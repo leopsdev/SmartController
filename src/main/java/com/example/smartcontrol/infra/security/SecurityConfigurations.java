@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers((HttpMethod.POST),"/auth/login").permitAll()
                         .requestMatchers((HttpMethod.POST),"/auth/register").permitAll()
+                        .requestMatchers((HttpMethod.PUT),"/air/{id}/turnOn").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/updateCondition").hasAnyRole("SECURITY","ADMIN")
                         .requestMatchers(HttpMethod.POST,"/air").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/{id}").hasRole(("ADMIN"))

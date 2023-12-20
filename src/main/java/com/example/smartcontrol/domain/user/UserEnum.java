@@ -1,6 +1,7 @@
 package com.example.smartcontrol.domain.user;
 
-public enum UserEnum {
+public enum
+UserEnum {
     ADMIN("ADMIN"),
     SECURITY("SECURITY"),
     TEACHER("TEACHER");
