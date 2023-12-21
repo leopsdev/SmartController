@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +31,13 @@ public class EquipmentController {
 
     @GetMapping("/test/turnOn")
     public String testTurnOn() {
-        serialService.sendMessageToSerialPort("1");
+        List<Integer> numbers = Arrays.asList(1234, 5678, 9101);
+        StringBuilder sb = new StringBuilder();
+        for (Integer number : numbers) {
+            sb.append(number).append(","); // Usando vírgula como delimitador
+        }
+        String dataToSend = sb.toString();
+        serialService.sendMessageToSerialPort(dataToSend);
         return "ok";
     }
 
@@ -106,9 +113,15 @@ public class EquipmentController {
         if(OptionalEquipmentAir.isPresent()){
             EquipmentAir equipmentAir = OptionalEquipmentAir.get();
             String model = equipmentAir.getModel();
-            List<Rows> OptionalRows = rowRepository.findByModel(model);
-            Rows newRow = OptionalRows.get(0);
-            serialService.sendMessageToSerialPort(newRow.getRowon());
+            List<Rows> rowsList = rowRepository.findByModel(model);
+            Rows newRow = rowsList.get(0);
+            List<Integer> row = newRow.getRowon();
+            StringBuilder sb = new StringBuilder();
+            for (Integer number : row) {
+                sb.append(number).append(","); // Usando vírgula como delimitador
+            }
+            String dataToSend = sb.toString();
+            serialService.sendMessageToSerialPort(dataToSend);
             equipmentAir.setActive(true);
             return ResponseEntity.ok(equipmentAir);
 

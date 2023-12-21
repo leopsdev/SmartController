@@ -4,6 +4,8 @@ package com.example.smartcontrol.domain.rows;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Table(name = "rows")
 @Entity(name = "rows")
 @Getter
@@ -15,8 +17,8 @@ public class Rows {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String model;
-    private String rowon;
-    private String rowoff;
+    private List<Integer> rowon;
+    private List<Integer> rowoff;
 
     public Rows(RowsRequestDTO data){
         this.model = data.model();
