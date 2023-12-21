@@ -15,13 +15,13 @@ public class Rows {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String model;
-    private String rowOn;
-    private String rowOff;
+    private String rowon;
+    private String rowoff;
 
     public Rows(RowsRequestDTO data){
         this.model = data.model();
-        this.rowOff = data.RowOff();
-        this.rowOn = data.rowOn();
+        this.rowoff = data.rowoff();
+        this.rowon = data.rowon();
     }
 }
 

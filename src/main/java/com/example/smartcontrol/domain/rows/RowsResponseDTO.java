@@ -1,10 +1,11 @@
 package com.example.smartcontrol.domain.rows;
 
 public record RowsResponseDTO(String model,
-                              String rowOn,
-                              String RowOff) {
+                              String id,
+                              String rowon,
+                              String rowoff) {
 
     public RowsResponseDTO (Rows rows){
-        this(rows.getModel(), rows.getRowOn(), rows.getRowOff());
+        this(rows.getId(),rows.getModel(), rows.getRowon(), rows.getRowoff());
     }
 }

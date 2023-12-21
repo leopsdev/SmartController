@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+
 public interface RowRepository extends JpaRepository<Rows,String> {
-    Rows findByModel(String model);
+
+    List<Rows> findByModel(String model);
 }

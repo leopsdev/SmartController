@@ -101,14 +101,17 @@ public class EquipmentController {
     }
 
     @PutMapping("/{id}/turnOn")
-    public ResponseEntity updateOnOFF(@PathVariable String id, @RequestBody Boolean active){
+    public ResponseEntity updateTurnOn(@PathVariable String id){
         Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
         if(OptionalEquipmentAir.isPresent()){
             EquipmentAir equipmentAir = OptionalEquipmentAir.get();
-            Rows newRow = rowRepository.findByModel(equipmentAir.getModel());
-            serialService.sendMessageToSerialPort(newRow.getRowOn());
-            equipmentAir.setActive(active);
+            String model = equipmentAir.getModel();
+            List<Rows> OptionalRows = rowRepository.findByModel(model);
+            Rows newRow = OptionalRows.get(0);
+            serialService.sendMessageToSerialPort(newRow.getRowon());
+            equipmentAir.setActive(true);
             return ResponseEntity.ok(equipmentAir);
+
         }
         return ResponseEntity.notFound().build();
     }
