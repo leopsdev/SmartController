@@ -4,6 +4,6 @@ import java.util.List;
 
 public record RowsRequestDTO(String id,
                              String model,
-                             List<Integer> rowon,
-                             List<Integer> rowoff) {
+                             String rowon,
+                             String rowoff) {
 }

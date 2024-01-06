@@ -17,8 +17,8 @@ public class Rows {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String model;
-    private List<Integer> rowon;
-    private List<Integer> rowoff;
+    private String rowon;
+    private String rowoff;
 
     public Rows(RowsRequestDTO data){
         this.model = data.model();

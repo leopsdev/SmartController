@@ -4,6 +4,7 @@ import com.example.smartcontrol.domain.equipment.AirRequestDTO;
 import com.example.smartcontrol.domain.equipment.AirResponseDTO;
 import com.example.smartcontrol.domain.rows.Rows;
 import com.example.smartcontrol.domain.rows.RowsRequestDTO;
+import com.example.smartcontrol.domain.rows.RowsResponseDTO;
 import com.example.smartcontrol.domain.user.LoginReponseDTO;
 import com.example.smartcontrol.repositories.AirRepository;
 import com.example.smartcontrol.domain.equipment.EquipmentAir;
@@ -31,19 +32,15 @@ public class EquipmentController {
 
     @GetMapping("/test/turnOn")
     public String testTurnOn() {
-        List<Integer> numbers = Arrays.asList(1234, 5678, 9101);
-        StringBuilder sb = new StringBuilder();
-        for (Integer number : numbers) {
-            sb.append(number).append(","); // Usando vírgula como delimitador
-        }
-        String dataToSend = sb.toString();
-        serialService.sendMessageToSerialPort(dataToSend);
+        //serialService.testOnOff("1");
+        String rowTest = "3100,1650,400,1150,400,1150,450,350,450,400,450,400,450,1100,450,400,400,400,450,1150,400,1150,400,400,450,1100,400,450,400,400,450,1150,400,1150,400,400,450,1100,450,1100,400,450,400,400,450,1150,400,400,450,400,450,1100,400,450,400,400,450,400,450,400,450,400,450,400,400,450,400,400,450,400,450,400,450,400,450,400,400,450,400,400,450,400,450,400,450,400,450,1100,400,450,400,400,450,1150,400,400,450,400,450,1100,400,1150,400,400,450,400,450,400,450,400,450,400,400";
+        serialService.sendMessageToSerialPort(rowTest);
         return "ok";
     }
 
     @GetMapping("/test/turnOff")
     public String testTurnOff() {
-        serialService.sendMessageToSerialPort("0");
+        serialService.testOnOff("0");
         return "ok";
     }
 
@@ -74,10 +71,15 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentAir);
     }
 
-    @PostMapping("/row")
+    @PostMapping("/rowadd")
     public ResponseEntity saveRow(@RequestBody RowsRequestDTO data){
         Rows rows = new Rows(data);
         rowRepository.save(rows);
+        return ResponseEntity.ok(rows);
+    }
+    @GetMapping("/row")
+    public ResponseEntity getAllRow(){
+        List<RowsResponseDTO> rows = rowRepository.findAll().stream().map(RowsResponseDTO::new).toList();
         return ResponseEntity.ok(rows);
     }
 
@@ -115,13 +117,13 @@ public class EquipmentController {
             String model = equipmentAir.getModel();
             List<Rows> rowsList = rowRepository.findByModel(model);
             Rows newRow = rowsList.get(0);
-            List<Integer> row = newRow.getRowon();
-            StringBuilder sb = new StringBuilder();
-            for (Integer number : row) {
-                sb.append(number).append(","); // Usando vírgula como delimitador
-            }
-            String dataToSend = sb.toString();
-            serialService.sendMessageToSerialPort(dataToSend);
+            String row = newRow.getRowon();
+//            StringBuilder sb = new StringBuilder();
+//            for (Integer number : row) {
+//                sb.append(number).append(","); // Usando vírgula como delimitador
+//            }
+//            String dataToSend = sb.toString();
+            serialService.sendMessageToSerialPort(row);
             equipmentAir.setActive(true);
             return ResponseEntity.ok(equipmentAir);
 
