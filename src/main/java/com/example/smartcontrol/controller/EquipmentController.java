@@ -32,8 +32,7 @@ public class EquipmentController {
 
     @GetMapping("/test/turnOn")
     public String testTurnOn() {
-        //serialService.testOnOff("1");
-        String rowTest = "3100,1650,400,1150,400,1150,450,350,450,400,450,400,450,1100,450,400,400,400,450,1150,400,1150,400,400,450,1100,400,450,400,400,450,1150,400,1150,400,400,450,1100,450,1100,400,450,400,400,450,1150,400,400,450,400,450,1100,400,450,400,400,450,400,450,400,450,400,450,400,400,450,400,400,450,400,450,400,450,400,450,400,400,450,400,400,450,400,450,400,450,400,450,1100,400,450,400,400,450,1150,400,400,450,400,450,1100,400,1150,400,400,450,400,450,400,450,400,450,400,400";
+        String rowTest = "8900,4500,500,650,500,600,500,1700,500,600,500,650,500,600,500,600,550,600,450,1750,500,1700,500,600,500,1750,500,1700,500,1700,500,1750,500,1700,500,600,500,600,500,650,500,1700,500,600,550,600,450,650,500,600,500,1750,450,1750,500,1700,500,600,500,1750,450,1750,500,1750,450,1750,500";
         serialService.sendMessageToSerialPort(rowTest);
         return "ok";
     }
@@ -118,16 +117,9 @@ public class EquipmentController {
             List<Rows> rowsList = rowRepository.findByModel(model);
             Rows newRow = rowsList.get(0);
             String row = newRow.getRowon();
-//            StringBuilder sb = new StringBuilder();
-//            for (Integer number : row) {
-//                sb.append(number).append(","); // Usando vírgula como delimitador
-//            }
-//            String dataToSend = sb.toString();
             serialService.sendMessageToSerialPort(row);
-            equipmentAir.setActive(true);
-            return ResponseEntity.ok(equipmentAir);
-
+            return ResponseEntity.ok(row);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok("Não encontrado");
     }
 }
