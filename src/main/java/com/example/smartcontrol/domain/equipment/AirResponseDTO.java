@@ -7,7 +7,8 @@ public record AirResponseDTO(String id,
                              Boolean condition,
                              Boolean active,
                              String division,
-                             String segment) {
+                             String segment,
+                             Integer command) {
     public AirResponseDTO(EquipmentAir air){
         this(air.getId(),
                 air.getModel(),
@@ -15,6 +16,7 @@ public record AirResponseDTO(String id,
                 air.getCondition(),
                 air.getActive(),
                 air.getDivision(),
-                air.getSegment());
+                air.getSegment(),
+                air.getCommand());
     }
 }

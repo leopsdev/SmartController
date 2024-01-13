@@ -7,6 +7,7 @@ public record AirRequestDTO(String id,
                             Boolean active,
                             Boolean condition,
                             String division,
-                            String segment) {
+                            String segment,
+                            Integer command) {
 
 }

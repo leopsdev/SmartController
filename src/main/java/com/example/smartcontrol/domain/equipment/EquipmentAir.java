@@ -19,6 +19,7 @@ public class EquipmentAir {
     private Boolean condition;
     private String division;
     private String segment;
+    private Integer command;
 
     public EquipmentAir(AirRequestDTO data){
         this.active = data.active();
@@ -27,6 +28,7 @@ public class EquipmentAir {
         this.model = data.model();
         this.division = data.division();
         this.segment = data.segment();
+        this.command = data.command();
     }
 
 }

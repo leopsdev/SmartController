@@ -120,6 +120,40 @@ public class EquipmentController {
             serialService.sendMessageToSerialPort(row);
             return ResponseEntity.ok(row);
         }
-        return ResponseEntity.ok("Não encontrado");
+        return ResponseEntity.ok("not found");
+    }
+    @PutMapping("/{id}/turnOff")
+    public ResponseEntity updateTurnOff(@PathVariable String id){
+        Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
+        if(OptionalEquipmentAir.isPresent()){
+            EquipmentAir equipmentAir = OptionalEquipmentAir.get();
+            String model = equipmentAir.getModel();
+            List<Rows> rowsList = rowRepository.findByModel(model);
+            Rows newRow = rowsList.get(0);
+            String row = newRow.getRowoff();
+            serialService.sendMessageToSerialPort(row);
+            return ResponseEntity.ok(row);
+        }
+        return ResponseEntity.ok("not found");
+    }
+
+    @GetMapping("/{id}/{model}/esp01")
+    public String getHowEsp(@PathVariable String id, @PathVariable String model){
+        Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
+        if(OptionalEquipmentAir.isPresent()){
+            EquipmentAir equipmentAir = OptionalEquipmentAir.get();
+            Integer command = equipmentAir.getCommand();
+            if(command == 1){
+                List<Rows> rowsList = rowRepository.findByModel(model);
+                Rows newRow = rowsList.get(0);
+                return newRow.getRowon();
+            } else if (command == -1) {
+                List<Rows> rowsList = rowRepository.findByModel(model);
+                Rows newRow = rowsList.get(0);
+                return newRow.getRowoff();
+            }
+            return null;
+        }
+        return "not found";
     }
 }
