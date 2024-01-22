@@ -49,6 +49,12 @@ public class EquipmentController {
         return ResponseEntity.ok(equips);
     }
 
+    @GetMapping("/division")
+    public ResponseEntity getAllBloco() {
+        var divisions = repository.findAll().stream().map(EquipmentAir::getDivision).toList();
+        return ResponseEntity.ok(divisions);
+    }
+
     @GetMapping("/{division}")
     public ResponseEntity getPorBloco(@PathVariable String division){
         List<EquipmentAir> equips = repository.findByDivision(division);
