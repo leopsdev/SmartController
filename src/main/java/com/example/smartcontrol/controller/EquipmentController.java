@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -115,7 +116,7 @@ public class EquipmentController {
     }
 
     @PutMapping("/{id}/turnOn")
-    public ResponseEntity updateTurnOn(@PathVariable String id){
+    public ResponseEntity updateTurnOn(@PathVariable String id) throws IOException, InterruptedException {
         Optional<EquipmentAir> OptionalEquipmentAir = repository.findById(id);
         if(OptionalEquipmentAir.isPresent()){
             EquipmentAir equipmentAir = OptionalEquipmentAir.get();
@@ -123,7 +124,7 @@ public class EquipmentController {
             List<Rows> rowsList = rowRepository.findByModel(model);
             Rows newRow = rowsList.get(0);
             String row = newRow.getRowon();
-            serialService.sendMessageToSerialPort(row);
+            serialService.sendMessageToEsp(row);
             return ResponseEntity.ok(row);
         }
         return ResponseEntity.ok("not found");

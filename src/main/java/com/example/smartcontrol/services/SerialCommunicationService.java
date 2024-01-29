@@ -3,8 +3,24 @@ package com.example.smartcontrol.services;
 import org.springframework.stereotype.Service;
 import com.fazecast.jSerialComm.*;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 @Service
 public class SerialCommunicationService {
+    public void sendMessageToEsp(String dataToSend) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://10.0.96.127/receiveData"))
+                .POST(HttpRequest.BodyPublishers.ofString(dataToSend))
+                .build();
+//192.168.0.11
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
     public void sendMessageToSerialPort(String message) {
         try {
             SerialPort port = SerialPort.getCommPort("COM5"); // Adjust the port name as needed

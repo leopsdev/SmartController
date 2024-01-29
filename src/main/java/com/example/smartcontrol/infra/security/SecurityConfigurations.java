@@ -37,6 +37,7 @@ public class SecurityConfigurations {
                         .requestMatchers((HttpMethod.PUT),"/air/{id}/turnOn").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/updateCondition").hasAnyRole("SECURITY","ADMIN")
                         .requestMatchers(HttpMethod.POST,"/air").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/{id}/{model}/esp01").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/{id}").hasRole(("ADMIN"))
                         .anyRequest().authenticated()
                 )
